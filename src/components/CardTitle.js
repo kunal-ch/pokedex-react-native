@@ -1,34 +1,35 @@
 import React from "react";
-import { StyleSheet, Text, View, Image } from "react-native"
+import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity } from "react-native"
 import LinearGradient from 'react-native-linear-gradient';
 
-// heigth & width add
-const CardTitle = ({ name, id, showTitle, height = undefined, width = '100%', imageHeight = 100, imageWidth = 100 }) => {
+const CardTitle = ({ navigation, name, id, showTitle, height = undefined, width = '100%', imageHeight = 100, imageWidth = 100 }) => {
+    console.log(navigation)
     return (
+        <Pressable
+            style={[styles.viewSytle, { height, width }]}
+            onPress={() => navigation.navigate('Detail')}>
+            <View>
+                <LinearGradient
+                    colors={['#C0D4C8', '#CFB7ED']}
+                    style={styles.gradientStyle}>
 
-        <View style={[styles.viewSytle, { height, width }]}>
-            <LinearGradient 
-                colors={['#C0D4C8', '#CFB7ED']} 
-                style={styles.gradientStyle}>
+                    <Image
+                        style={[styles.imageStyle, { width: imageWidth, height: imageHeight }]}
+                        source={require('../../assets/image1.png')} />
 
-                <Image
-                    style={[styles.imageStyle, { width: imageWidth, height: imageHeight }]}
-                    source={require('../../assets/image1.png')} />
+                    {showTitle && <View style={styles.viewTextStyle}>
+                        <Text style={styles.textNameStyle}>
+                            {name}
+                        </Text>
 
-                {showTitle && <View style={styles.viewTextStyle}>
-                    <Text style={styles.textNameStyle}>
-                        {name}
-                    </Text>
+                        <Text style={styles.textNumberStyle}>
+                            {id}
+                        </Text>
+                    </View>}
 
-                    <Text style={styles.textNumberStyle}>
-                        {id}
-                    </Text>
-                </View>}
-
-            </LinearGradient>
-        </View>
-        
-
+                </LinearGradient>
+            </View>
+        </Pressable>
     );
 }
 
@@ -38,9 +39,9 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
 
-    gradientStyle: { 
-        flex: 1, 
-        borderRadius: 8 
+    gradientStyle: {
+        flex: 1,
+        borderRadius: 8
     },
 
     viewSytle: {

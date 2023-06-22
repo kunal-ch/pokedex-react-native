@@ -1,49 +1,54 @@
 import React from "react";
-import { View, Text, StyleSheet, Image, FlatList, Switch, ScrollView } from 'react-native'
+import { View, Text, StyleSheet, Image, Pressable, ScrollView, SafeAreaView } from 'react-native'
 import CustomButton from "./CustomButton";
 import Filter from "./Filter";
 
-const FilterDialog = () => {    
-    return <View style={styles.viewStyle}>
+const FilterDialog = ({navigation}) => {
+    return (
+        <SafeAreaView>
+            <View style={styles.viewStyle}>
 
-            <View style={styles.viewHeaderStyle}>
+                <View style={styles.viewHeaderStyle}>
 
-                <Text style={styles.textStyle}>
-                    Filters
-                </Text>
+                    <Text style={styles.textStyle}>
+                        Filters
+                    </Text>
 
-                <Image
-                    style={styles.imgStyle}
-                    source={require('../../assets/img_close_circle.png')} />
+                    <Pressable
+                        onPress={() => navigation.navigate('Home')}>
+                        <Image
+                            style={styles.imgStyle}
+                            source={require('../../assets/img_close_circle.png')} />
+                    </Pressable>
+                </View>
+
+                <View style={styles.viewLineStyle} />
+
+                <ScrollView showsVerticalScrollIndicator={false}>
+
+                    <Filter filtername={"Type"} />
+                    <Filter filtername={"Gender"} />
+                    <Filter filtername={"Stats"} />
+
+                </ScrollView>
+
+                {/* <View style={styles.viewBottomStyle}>
+
+                    <View style={styles.viewBottomLineStyle} />
+
+                    <CustomButton isBackgroundColor={false} btnName={'Reset'} btnWidth={'50%'} />
+                    <CustomButton isBackgroundColor={true} btnName={'Apply'} btnWidth={'50%'} />
+
+                </View> */}
             </View>
-
-            <View style={styles.viewLineStyle}/>
-
-            {/* <ScrollView>
-
-                <Filter filtername={"Type"}/>
-                <Filter filtername={"Gender"}/>
-                <Filter filtername={"Stats"}/>
-
-            </ScrollView> */}
-
-            <View style={styles.viewBottomStyle}>
-
-                <View style={styles.viewBottomLineStyle}/>
-
-                <CustomButton isBackgroundColor={false} btnName={'Reset'} btnWidth={'50%'}/>
-                <CustomButton isBackgroundColor={true} btnName={'Apply'} btnWidth={'50%'}/>
-
-            </View>
-
-
-        </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
-    
+
     viewStyle: {
-        margin: 24,
+        padding: 24,
         borderRadius: 8,
         backgroundColor: 'white'
     },

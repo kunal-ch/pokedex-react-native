@@ -1,38 +1,55 @@
 import React from "react";
-import { StyleSheet, FlatList, View, Text, Image, ScrollView } from "react-native"
+import { StyleSheet, FlatList, View, Text, Image, ScrollView, Pressable, SafeAreaView } from "react-native"
 import CardTitle from "../components/CardTitle";
 import Search from "../components/Search";
 
-const PokemonListScreen = () => {
+const PokemonListScreen = ({ navigation }) => {
     const items = Array(10).fill(0)
     return (
-        <View style={styles.viewStyle}>
-            <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={styles.textTitleStyle}>
-                    Pokédex
-                </Text>
+        <SafeAreaView>
+            <View style={styles.viewStyle}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <Text style={styles.textTitleStyle}>
+                        Pokédex
+                    </Text>
 
-                <View style={styles.viewLineStyle}/>
+                    <View style={styles.viewLineStyle} />
 
-                <Text style={styles.textDescStyle}>
-                    Search for any Pokémon that exists on the planet
-                </Text>
+                    <Text style={styles.textDescStyle}>
+                        Search for any Pokémon that exists on the planet
+                    </Text>
 
-                <View style={styles.searchStyle}>
-                    <Search/>
-                    <Image styles={{flex:1}} source={require('../../assets/img_filter.png')} />
-                </View>
+                    <View style={styles.searchStyle}>
+                        <Search />
+                        <Pressable
+                            onPress={() => navigation.navigate('Filter')}>
+                            <Image
+                                styles={{ flex: 1 }}
+                                source={require('../../assets/img_filter.png')} />
+                        </Pressable>
+                    </View>
 
-                <FlatList style={styles.flatListStyle}
-                    data={items}
-                    numColumns={2}
-                    showsVerticalScrollIndicator={false}
-                    ItemSeparatorComponent={() => <View style={{height: 18}}/> }
-                    columnWrapperStyle={{justifyContent: 'space-between'}}
-                    renderItem={({ items }) => <CardTitle showTitle={true} name={'Bulbasaur'} id={'001'} width={'47%'}/>
-                    }/>
-            </ScrollView>
-        </View>
+                    <FlatList style={styles.flatListStyle}
+                        data={items}
+                        numColumns={2}
+                        showsVerticalScrollIndicator={false}
+                        ItemSeparatorComponent={() => <View style={{ height: 18 }} />}
+                        columnWrapperStyle={{ justifyContent: 'space-between' }}
+                        renderItem={
+                            ({ items }) => {
+                                return (
+                                    <CardTitle
+                                        navigation={navigation}
+                                        showTitle={true}
+                                        name={'Bulbasaur'}
+                                        id={'001'}
+                                        width={'47%'} />
+                                );
+                            }
+                        } />
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     );
 }
 

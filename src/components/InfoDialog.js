@@ -1,21 +1,28 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from 'react-native'
+import { View, Text, StyleSheet, Image, SafeAreaView, Pressable } from 'react-native'
 
-const InfoDialog = ({infoText=""}) => {
+const InfoDialog = ({ navigation, infoText = "" }) => {
     infoText = "Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally. When expelling a blast of super hot fire, the red flame at the tip of its tail burns more intensely. If CHARIZARD be­comes furious, the flame at the tip of its tail flares up in a whitish-blue color. Breathing intense, hot flames, it can melt almost any­ thing. Its breath inflicts terrible pain on enemies. It uses its wings to fly high. The temperature of its fire increases as it gains exper­\nience in battle. CHARIZARD flies around the sky in search of powerful opponents. It breathes fire of such great heat that it melts anything. However, it never turns its fiery breath on any opponent weaker than itself. Its wings can carry this POKéMON close to an altitude of 4,600 feet. It blows out\nfire at very high temperatures. It is said that CHARIZARD’s fire burns hotter if it has\nexperienced harsh battles."
-    
-    return <View style={styles.backgroundViewStyle}>
-        <View style={styles.viewStyle}>
 
-            <Text style={styles.textStyle}>
-               {infoText} 
-            </Text>
+    return (
+        <SafeAreaView>
+            <View style={styles.backgroundViewStyle}>
+                <View style={styles.viewStyle}>
 
-            <Image
-                style={styles.imgStyle}
-                source={require('../../assets/img_close_white.png')} />
-        </View>
-    </View>
+                    <Text style={styles.textStyle}>
+                        {infoText}
+                    </Text>
+
+                    <Pressable
+                        style={styles.imgStyle}
+                        onPress={() => navigation.navigate('Detail')}>
+                        <Image
+                            source={require('../../assets/img_close_white.png')} />
+                    </Pressable>
+                </View>
+            </View>
+        </SafeAreaView>
+    );
 }
 
 const styles = StyleSheet.create({
