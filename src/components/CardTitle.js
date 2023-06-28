@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity } from "react-native"
 import LinearGradient from 'react-native-linear-gradient';
 
+// useEffect to call detail API
 const CardTitle = ({ navigation, name, id, showTitle, height = undefined, width = '100%', imageHeight = 100, imageWidth = 100 }) => {
     console.log(navigation)
     return (
