@@ -2,9 +2,28 @@ import React from "react";
 import { StyleSheet, FlatList, View, Text, Image, ScrollView, Pressable, SafeAreaView } from "react-native"
 import CardTitle from "../components/CardTitle";
 import Search from "../components/Search";
+import { connect, useDispatch, useSelector } from 'react-redux'
+import { setPokemonList } from "../redux/pokemon/pokemonAction";
 
 const PokemonListScreen = ({ navigation }) => {
+    //console.log(this.props)
+    const dispatch = useDispatch()
     const items = Array(10).fill(0)
+    const myList = useSelector((state) => state.pokemonList)
+    React.useEffect(() => {
+        dispatch(setPokemonList([
+            {
+                id: 1,
+                name: "abc",
+                image: `require('../../assets/image1.png')`
+            },
+            {
+                id: 2,
+                name: "efg",
+                image: `require('../../assets/image1.png')`
+            }
+        ]))
+    }, [])
     return (
         <SafeAreaView>
             <View style={styles.viewStyle}>
@@ -30,18 +49,19 @@ const PokemonListScreen = ({ navigation }) => {
                     </View>
 
                     <FlatList style={styles.flatListStyle}
-                        data={items}
+                        data={myList}
                         numColumns={2}
                         showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={() => <View style={{ height: 18 }} />}
                         columnWrapperStyle={{ justifyContent: 'space-between' }}
                         renderItem={
-                            ({ items }) => {
+                            ({ item }) => {
+                                console.log(item)
                                 return (
                                     <CardTitle
                                         navigation={navigation}
                                         showTitle={true}
-                                        name={'Bulbasaur'}
+                                        name={item.name}
                                         id={'001'}
                                         width={'47%'} />
                                 );
@@ -90,4 +110,17 @@ const styles = StyleSheet.create({
     }
 })
 
-export default PokemonListScreen;
+const mapStateToProps = (state) => {
+    return {
+       pokemonList: state.pokemonList
+    }
+ }
+ const mapDispatchToProps = (dispatch) => {
+    return { 
+       setPokemonList: (pokemonList) => {
+          dispatch(setPokemonList(pokemonList))
+       }
+    }
+ }
+
+ export default PokemonListScreen;
