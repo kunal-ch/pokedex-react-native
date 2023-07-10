@@ -1,10 +1,22 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect } from "react";
 import { StyleSheet, Text, View, Image, Pressable, TouchableOpacity } from "react-native"
 import LinearGradient from 'react-native-linear-gradient';
 
 // useEffect to call detail API
 const CardTitle = ({ navigation, name, id, showTitle, height = undefined, width = '100%', imageHeight = 100, imageWidth = 100 }) => {
-    console.log(navigation)
+    //console.log(navigation)
+
+    useEffect(() => {
+     axios.get('https://pokeapi.co/api/v2/pokemon/1/')
+     .then(res => {
+        console.log(res)
+     })
+     .catch(err => {
+        console.log(err)
+     })
+    })
+
     return (
         <Pressable
             style={[styles.viewSytle, { height, width }]}

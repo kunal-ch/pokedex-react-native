@@ -1,0 +1,35 @@
+1. Redux Thunk
+2. 3 Actions 
+- Loading 
+- Success
+- Failure
+
+
+3. States :
+Loading
+List
+Error
+id (Detail) : Object
+
+{
+    1: {},
+    2: {},
+    3: {}
+}
+
+List API with Detail
+FlatList use useEffect
+
+Like key value pair
+data: {
+  1: {},
+  2. {}
+}
+
+data['2']
+
+
+Learn Below Hooks : 
+- useEffect
+- Redux : useSelector and useDispatch
+- Ignore Class component

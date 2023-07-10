@@ -1,29 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, Text, Image, ScrollView, Pressable, SafeAreaView } from "react-native"
 import CardTitle from "../components/CardTitle";
 import Search from "../components/Search";
-import { connect, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setPokemonList } from "../redux/pokemon/pokemonAction";
+import axios from "axios";
 
 const PokemonListScreen = ({ navigation }) => {
     //console.log(this.props)
+    //const items = Array(10).fill(0)
+
     const dispatch = useDispatch()
-    const items = Array(10).fill(0)
     const myList = useSelector((state) => state.pokemonList)
-    React.useEffect(() => {
-        dispatch(setPokemonList([
-            {
-                id: 1,
-                name: "abc",
-                image: `require('../../assets/image1.png')`
-            },
-            {
-                id: 2,
-                name: "efg",
-                image: `require('../../assets/image1.png')`
-            }
-        ]))
+
+    useEffect(() => {
+
+        axios.get('https://pokeapi.co/api/v2/pokemon/')
+            .then(res => {
+                console.log(res)
+                dispatch(setPokemonList(res.data.results))
+            })
+            .catch(err => {
+                console.log(err)
+            })
     }, [])
+
     return (
         <SafeAreaView>
             <View style={styles.viewStyle}>
@@ -54,6 +55,7 @@ const PokemonListScreen = ({ navigation }) => {
                         showsVerticalScrollIndicator={false}
                         ItemSeparatorComponent={() => <View style={{ height: 18 }} />}
                         columnWrapperStyle={{ justifyContent: 'space-between' }}
+                        keyExtractor={item => item.name}
                         renderItem={
                             ({ item }) => {
                                 console.log(item)
@@ -110,17 +112,4 @@ const styles = StyleSheet.create({
     }
 })
 
-const mapStateToProps = (state) => {
-    return {
-       pokemonList: state.pokemonList
-    }
- }
- const mapDispatchToProps = (dispatch) => {
-    return { 
-       setPokemonList: (pokemonList) => {
-          dispatch(setPokemonList(pokemonList))
-       }
-    }
- }
-
- export default PokemonListScreen;
+export default PokemonListScreen;
