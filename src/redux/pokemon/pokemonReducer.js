@@ -1,4 +1,4 @@
-import { SELECTED_POKEMON, SET_POKEMON_LIST } from "./pokemonActionTypes";
+import { DELETE_POKEMON_LIST, SELECTED_POKEMON, SET_POKEMON_LIST } from "./pokemonActionTypes";
 
 const initialState = {
     pokemonList: [
@@ -22,6 +22,12 @@ export const pokemonReducer = (state = initialState, { type, payload }) => {
             return {
                 ...state, selectedPokemon: payload
             }
+
+        case DELETE_POKEMON_LIST:
+
+        return{
+            ...state, pokemonList: []
+        }
         default:
             return state;
     }

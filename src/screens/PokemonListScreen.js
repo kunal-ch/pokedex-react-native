@@ -3,7 +3,7 @@ import { StyleSheet, FlatList, View, Text, Image, ScrollView, Pressable, SafeAre
 import CardTitle from "../components/CardTitle";
 import Search from "../components/Search";
 import { useDispatch, useSelector } from 'react-redux'
-import { setPokemonList } from "../redux/pokemon/pokemonAction";
+import { deletePokemonList, setPokemonList } from "../redux/pokemon/pokemonAction";
 import axios from "axios";
 
 const PokemonListScreen = ({ navigation }) => {
@@ -13,17 +13,22 @@ const PokemonListScreen = ({ navigation }) => {
     const myList = useSelector((state) => state.pokemonList)
 
     useEffect(() => {
+        dispatch(deletePokemonList([]))
         axios.get('https://pokeapi.co/api/v2/pokemon/')
             .then(res => {
                 for (let i = 0; i < res.data.results.length; i++) {
+                    console.log(`outer axios called : ${i}`);
                     axios.get(res.data.results[i].url)
                         .then(res => {
                             dispatch(setPokemonList([res.data]))
+                            console.log('inner axios called');
+
                         })
                         .catch(err => {
                             console.log(err)
                         })
                 }
+                console.log('outer axios called');
             })
         .catch(err => {
             console.log(err)
