@@ -8,71 +8,81 @@ import axios from "axios";
 
 const PokemonListScreen = ({ navigation }) => {
     //console.log(this.props)
-    //const items = Array(10).fill(0)
 
     const dispatch = useDispatch()
     const myList = useSelector((state) => state.pokemonList)
 
     useEffect(() => {
-
         axios.get('https://pokeapi.co/api/v2/pokemon/')
             .then(res => {
-                console.log(res)
-                dispatch(setPokemonList(res.data.results))
+                for (let i = 0; i < res.data.results.length; i++) {
+                    axios.get(res.data.results[i].url)
+                        .then(res => {
+                            dispatch(setPokemonList([res.data]))
+                        })
+                        .catch(err => {
+                            console.log(err)
+                        })
+                }
             })
-            .catch(err => {
-                console.log(err)
-            })
-    }, [])
+        .catch(err => {
+            console.log(err)
+        })
+}, [])
 
-    return (
-        <SafeAreaView>
-            <View style={styles.viewStyle}>
-                <ScrollView showsVerticalScrollIndicator={false}>
-                    <Text style={styles.textTitleStyle}>
-                        Pokédex
-                    </Text>
+return (
+    <SafeAreaView>
+        <View style={styles.viewStyle}>
+            {/* <ScrollView showsVerticalScrollIndicator={false}> */}
+            <Text style={styles.textTitleStyle}>
+                Pokédex
+            </Text>
 
-                    <View style={styles.viewLineStyle} />
+            <View style={styles.viewLineStyle} />
 
-                    <Text style={styles.textDescStyle}>
-                        Search for any Pokémon that exists on the planet
-                    </Text>
+            <Text style={styles.textDescStyle}>
+                Search for any Pokémon that exists on the planet
+            </Text>
 
-                    <View style={styles.searchStyle}>
-                        <Search />
-                        <Pressable
-                            onPress={() => navigation.navigate('Filter')}>
-                            <Image
-                                styles={{ flex: 1 }}
-                                source={require('../../assets/img_filter.png')} />
-                        </Pressable>
-                    </View>
-
-                    <FlatList style={styles.flatListStyle}
-                        data={myList}
-                        numColumns={2}
-                        showsVerticalScrollIndicator={false}
-                        ItemSeparatorComponent={() => <View style={{ height: 18 }} />}
-                        columnWrapperStyle={{ justifyContent: 'space-between' }}
-                        keyExtractor={item => item.name}
-                        renderItem={
-                            ({ item }) => {
-                                console.log(item)
-                                return (
-                                    <CardTitle
-                                        navigation={navigation}
-                                        showTitle={true}
-                                        name={item.name}
-                                        id={'001'}
-                                        width={'47%'} />
-                                );
-                            }
-                        } />
-                </ScrollView>
+            <View style={styles.searchStyle}>
+                <Search />
+                <Pressable
+                    onPress={() => navigation.navigate('Filter')}>
+                    <Image
+                        styles={{ flex: 1 }}
+                        source={require('../../assets/img_filter.png')} />
+                </Pressable>
             </View>
-        </SafeAreaView>
-    );
+
+            {/* <View style={{ flex: 1}}> */}
+            <FlatList style={styles.flatListStyle}
+                data={myList}
+                numColumns={2}
+                showsVerticalScrollIndicator={false}
+                ItemSeparatorComponent={() => <View style={{ height: 18 }} />}
+                columnWrapperStyle={{ justifyContent: 'space-between' }}
+                keyExtractor={item => item.id}
+                renderItem={
+                    ({ item }) => {
+                        console.log(item)
+                        return (
+                            <CardTitle
+                                navigation={navigation}
+                                name={item.name}
+                                id={item.id}
+                                types={item.types}
+                                image_url={item.sprites.other.dream_world.front_default}
+                                showTitle={true}
+                                width={'47%'}
+                                url={item.url} />
+                        );
+                    }
+                } />
+            {/* </View> */}
+            {/* </ScrollView> */}
+        </View>
+    </SafeAreaView>
+);
 }
 
 const styles = StyleSheet.create({
@@ -102,7 +112,6 @@ const styles = StyleSheet.create({
     },
 
     searchStyle: {
-        flex: 1,
         flexDirection: "row",
         marginTop: 36
     },

@@ -7,13 +7,16 @@ import EvolutionChain from "../components/EvolutionChain";
 import NavButton from "../components/NavButton";
 import CardTitle from "../components/CardTitle";
 
-const PokemonDetailScreen = ({ navigation }) => {
+const PokemonDetailScreen = ({ route, navigation }) => {
+
+    const { pokemonObj } = route.params
+
     return (
         <SafeAreaView>
             <View style={styles.viewStyle}>
                 <ScrollView style={{ flexGrow: 1 }}>
                     <View style={styles.viewHeaderStyle}>
-                        <Header name={'CHARIZARD'} id={'006'} />
+                        <Header name={pokemonObj.name} id={pokemonObj.id} />
 
                         <Pressable
                             onPress={() => {
